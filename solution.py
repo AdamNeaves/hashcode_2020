@@ -2,14 +2,15 @@ import library
 import reader
 import writer
 
-files = {'a': './inputs/a_example.txt',
-         'b': './inputs/b_read_on.txt',
-         'c': './inputs/c_incunabula.txt',
-         'd': './inputs/d_tough_choices.txt',
-         'e': './inputs/e_so_many_books.txt',
-         'f': './inputs/f_libraries_of_the_world.txt'}
+files = {'a': 'a_example.txt',
+         'b': 'b_read_on.txt',
+         'c': 'c_incunabula.txt',
+         'd': 'd_tough_choices.txt',
+         'e': 'e_so_many_books.txt',
+         'f': 'f_libraries_of_the_world.txt'}
 
-days_left, remaining_libs = reader.read(files['e'])
+run_file = files['d']
+days_left, remaining_libs = reader.read('./input/' + run_file)
 outputs = []
 while days_left > 0 and len(remaining_libs) > 0:
     remaining_libs = sorted(remaining_libs, key=lambda x: x.signup)
@@ -23,4 +24,5 @@ while days_left > 0 and len(remaining_libs) > 0:
 
     days_left = days_left - next_lib.signup
     outputs.append(next_lib)
-writer.write('./beans', outputs)
+
+writer.write('./output/' + run_file, outputs)
