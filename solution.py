@@ -9,8 +9,8 @@ files = {'a': 'a_example.txt',
          'e': 'e_so_many_books.txt',
          'f': 'f_libraries_of_the_world.txt'}
 
-run_file = files['d']
-days_left, remaining_libs = reader.read('./input/' + run_file)
+run_file = files['f']
+days_left, remaining_libs = reader.read('./inputs/' + run_file)
 outputs = []
 while days_left > 0 and len(remaining_libs) > 0:
     remaining_libs = sorted(remaining_libs, key=lambda x: x.get_score(days_left))
@@ -25,4 +25,4 @@ while days_left > 0 and len(remaining_libs) > 0:
     days_left = days_left - next_lib.signup
     outputs.append(next_lib)
 
-writer.write('./output/' + run_file, outputs)
+writer.write('./outputs/' + run_file, outputs)
