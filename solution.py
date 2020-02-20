@@ -11,15 +11,15 @@ files = {'a': './inputs/a_example.txt',
 
 days_left, remaining_libs = reader.read(files['a'])
 outputs = []
-while days_left > 0:
-    while len(remaining_libs) > 0:
-        next_lib = sorted(remaining_libs, key=lambda x: x.book_score_remaining(days_left))[0]
-        remaining_libs.remove(next_lib)
-        next_lib.books = next_lib.avail_books(days_left)
+while days_left > 0 and len(remaining_libs) > 0:
+    next_lib = sorted(remaining_libs, key=lambda x: x.book_score_remaining(days_left))[0]
+    remaining_libs.remove(next_lib)
+    next_lib.books = next_lib.avail_books(days_left)
+    if not next_lib.books:
+        continue
+    for l in remaining_libs:
+        l.remove_dupes(next_lib.books.keys())
 
-        for l in remaining_libs:
-            l.remove_dupes(next_lib.books.keys())
-
-        days_left = days_left - next_lib.signup
-        outputs.append(next_lib)
+    days_left = days_left - next_lib.signup
+    outputs.append(next_lib)
 writer.write('./beans', outputs)
