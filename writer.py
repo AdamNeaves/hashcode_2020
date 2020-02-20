@@ -7,5 +7,5 @@ def write(file_name, libs):
     with open(file_name, 'w') as f:
         f.write(f'{len(libs)}\n')
         for lib in libs:
-            f.write(f'{lib.idx} {len(libs.books)}\n')
-            f.write(f'{" ".join(lib.books)}\n')
+            f.write(f'{lib.idx} {len(lib.books)}\n')
+            f.write(f'{" ".join(str(l) for l in lib.books)}\n')

@@ -1,5 +1,5 @@
 class Library:
-    
+
     def __init__(self, idx, books, signup, books_per_day):
         self.idx = idx
         self.books = books
@@ -8,7 +8,10 @@ class Library:
 
     def remove_dupes(self, other_books):
         for book in other_books:
-            del self.books[book]
+            try:
+                del self.books[book]
+            except KeyError:
+                pass
         # self.books = list(set(self.books) - set(other_books))
 
     def calc_total_score(self, books):
