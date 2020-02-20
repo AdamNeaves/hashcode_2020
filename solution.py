@@ -9,11 +9,11 @@ files = {'a': './inputs/a_example.txt',
          'e': './inputs/e_so_many_books.txt',
          'f': './inputs/f_libraries_of_the_world.txt'}
 
-days_left, remaining_libs = reader.read(files['e'])
+days_left, remaining_libs = reader.read(files['c'])
 outputs = []
 while days_left > 0 and len(remaining_libs) > 0:
-    remaining_libs = sorted(remaining_libs, key=lambda x: x.signup)
-    next_lib = remaining_libs[0]
+    remaining_libs = sorted(remaining_libs, key=lambda x: x.book_score_remaining(days_left))
+    next_lib = remaining_libs[-1]
     remaining_libs.remove(next_lib)
     next_lib.books = next_lib.avail_books(days_left)
     if not next_lib.books:
