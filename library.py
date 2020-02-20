@@ -46,3 +46,6 @@ class Library:
                 score = self.calc_total_score(return_dict)
                 return score
         return 0
+
+    def get_scores(self, remaining_days):
+        return self.book_score_remaining(remaining_days)/self.signup
