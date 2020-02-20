@@ -15,7 +15,7 @@ class Library:
         # self.books = list(set(self.books) - set(other_books))
 
     def calc_total_score(self, books):
-        return sum(books.items())
+        return sum(books.values())
 
     def avail_books(self, remaining_days):
         days_after_signup = remaining_days - self.signup
