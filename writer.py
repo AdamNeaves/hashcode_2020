@@ -8,4 +8,4 @@ def write(file_name, libs):
         f.write(f'{len(libs)}\n')
         for lib in libs:
             f.write(f'{lib.idx} {len(libs.books)}\n')
-            f.write(f'{' '.join(lib.books)}\n')
+            f.write(f'{" ".join(lib.books)}\n')
