@@ -11,10 +11,10 @@ class Library:
             del self.books[book]
         # self.books = list(set(self.books) - set(other_books))
 
-    def calc_total_score(self):
+    def calc_total_score(self, books):
         total = 0
-        for book in self.books:
-            total += self.books[book]
+        for book in books:
+            total += books[book]
         return total
 
     def book_score_remaining(self, remaining_days):
@@ -23,10 +23,12 @@ class Library:
         if days_after_signup > 0:
             num_books = self.books_per_day * days_after_signup
             if num_books > len(self.books):
-                return self.books
+                score = self.calc_total_score(self.books)
+                return self.books, score
             else:
                 return_dict = {}
                 for x in list(self.books)[:num_books]:
                     return_dict[x] = self.books[x]
-                return return_dict
-        return 0
+                score = self.calc_total_score(return_dict)
+                return return_dict, score
+        return 0, 0
