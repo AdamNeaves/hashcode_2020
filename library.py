@@ -2,7 +2,7 @@ class Library:
 
     def __init__(self, idx, books, signup, books_per_day):
         self.idx = idx
-        self.books = books
+        self.books = dict(sorted(books.items(), key=lambda x: -x[1]))
         self.signup = signup
         self.books_per_day = books_per_day
 
@@ -48,4 +48,7 @@ class Library:
         return 0
 
     def get_score(self, remaining_days):
-        return self.book_score_remaining(remaining_days)/self.signup
+        return self.book_score_remaining(remaining_days)/(self.signup)
+
+    def books_chonked(self, remaining_days):
+        return (remaining_days - self.signup) * self.books_per_day

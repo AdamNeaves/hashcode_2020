@@ -9,20 +9,21 @@ files = {'a': 'a_example.txt',
          'e': 'e_so_many_books.txt',
          'f': 'f_libraries_of_the_world.txt'}
 
-run_file = files['f']
-days_left, remaining_libs = reader.read('./inputs/' + run_file)
-outputs = []
-while days_left > 0 and len(remaining_libs) > 0:
-    remaining_libs = sorted(remaining_libs, key=lambda x: x.get_score(days_left))
-    next_lib = remaining_libs[-1]
-    remaining_libs.remove(next_lib)
-    next_lib.books = next_lib.avail_books(days_left)
-    if not next_lib.books:
-        continue
-    for l in remaining_libs:
-        l.remove_dupes(next_lib.books.keys())
+for f in 'abcefd':
+    run_file = files[f]
+    days_left, remaining_libs = reader.read('./inputs/' + run_file)
+    outputs = []
+    while days_left > 0 and len(remaining_libs) > 0:
+        remaining_libs = sorted(remaining_libs, key=lambda x: x.get_score(days_left))
+        next_lib = remaining_libs[-1]
+        remaining_libs.remove(next_lib)
+        next_lib.books = next_lib.avail_books(days_left)
+        if not next_lib.books:
+            continue
+        for l in remaining_libs:
+            l.remove_dupes(next_lib.books.keys())
 
-    days_left = days_left - next_lib.signup
-    outputs.append(next_lib)
+        days_left = days_left - next_lib.signup
+        outputs.append(next_lib)
 
-writer.write('./outputs/' + run_file, outputs)
+    writer.write('./outputs/' + run_file, outputs)
