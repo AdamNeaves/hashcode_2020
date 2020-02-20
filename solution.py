@@ -2,7 +2,14 @@ import library
 import reader
 import writer
 
-days_left, remaining_libs = reader.read('./inputs/a_example.txt')
+files = {'a': './inputs/a_example.txt',
+         'b': './inputs/b_read_on.txt',
+         'c': './inputs/c_incunabula.txt',
+         'd': './inputs/d_tough_choices.txt',
+         'e': './inputs/e_so_many_books.txt',
+         'f': './inputs/f_libraries_of_the_world.txt'}
+
+days_left, remaining_libs = reader.read(files['a'])
 outputs = []
 while days_left > 0:
     while len(remaining_libs) > 0:
