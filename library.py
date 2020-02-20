@@ -1,6 +1,7 @@
 class Library:
     
-    def __init__(self, books, signup, books_per_day):
+    def __init__(self, idx, books, signup, books_per_day):
+        self.idx = idx
         self.books = books
         self.signup = signup
         self.books_per_day = books_per_day
