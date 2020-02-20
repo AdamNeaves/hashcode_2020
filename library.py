@@ -7,7 +7,9 @@ class Library:
         self.books_per_day = books_per_day
 
     def remove_dupes(self, other_books):
-        self.books = list(set(self.books) - set(other_books))
+        for book in other_books:
+            del self.books[book]
+        # self.books = list(set(self.books) - set(other_books))
 
     def calc_total_score(self):
         total = 0
