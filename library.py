@@ -15,10 +15,7 @@ class Library:
         # self.books = list(set(self.books) - set(other_books))
 
     def calc_total_score(self, books):
-        total = 0
-        for book in books:
-            total += books[book]
-        return total
+        return sum(books.items())
 
     def avail_books(self, remaining_days):
         days_after_signup = remaining_days - self.signup
@@ -26,13 +23,11 @@ class Library:
         if days_after_signup > 0:
             num_books = self.books_per_day * days_after_signup
             if num_books > len(self.books):
-                score = self.calc_total_score(self.books)
                 return self.books
             else:
                 return_dict = {}
                 for x in list(self.books)[:num_books]:
                     return_dict[x] = self.books[x]
-                score = self.calc_total_score(return_dict)
                 return return_dict
         return {}
 
