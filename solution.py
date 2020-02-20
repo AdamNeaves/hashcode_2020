@@ -13,7 +13,7 @@ run_file = files['d']
 days_left, remaining_libs = reader.read('./input/' + run_file)
 outputs = []
 while days_left > 0 and len(remaining_libs) > 0:
-    remaining_libs = sorted(remaining_libs, key=lambda x: x.book_score_remaining(days_left))
+    remaining_libs = sorted(remaining_libs, key=lambda x: x.get_score(days_left))
     next_lib = remaining_libs[-1]
     remaining_libs.remove(next_lib)
     next_lib.books = next_lib.avail_books(days_left)
