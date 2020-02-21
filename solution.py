@@ -14,8 +14,11 @@ for f in 'abcefd':
     days_left, remaining_libs = reader.read('./inputs/' + run_file)
     outputs = []
     while days_left > 0 and len(remaining_libs) > 0:
-        remaining_libs = sorted(remaining_libs, key=lambda x: x.get_score(days_left))
-        next_lib = remaining_libs[-1]
+        # Tuning:
+        # For b, c, f: 50 is better than 0
+        # For e: 0 is better than 50
+        next_lib = max(remaining_libs,
+                       key=lambda x: x.get_score(days_left, 50))
         remaining_libs.remove(next_lib)
         next_lib.books = next_lib.avail_books(days_left)
         if not next_lib.books:

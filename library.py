@@ -47,8 +47,8 @@ class Library:
                 return score
         return 0
 
-    def get_score(self, remaining_days):
-        return self.book_score_remaining(remaining_days)/(self.signup)
+    def get_score(self, remaining_days, penalty=0):
+        return self.book_score_remaining(remaining_days)/(self.signup + penalty)
 
     def books_chonked(self, remaining_days):
         return (remaining_days - self.signup) * self.books_per_day
