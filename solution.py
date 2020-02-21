@@ -1,7 +1,9 @@
 import library
 import reader
 import writer
+import scorer
 import sys
+from multiprocessing.pool import ThreadPool as Pool
 
 files = {'a': 'a_example.txt',
          'b': 'b_read_on.txt',
@@ -24,6 +26,7 @@ for f in sys.argv[1]:
         next_lib.books = next_lib.avail_books(days_left)
         if not next_lib.books:
             continue
+        pool_size = len(remaining_libs)
         for l in remaining_libs:
             l.remove_dupes(next_lib.books.keys())
 
@@ -31,3 +34,4 @@ for f in sys.argv[1]:
         outputs.append(next_lib)
 
     writer.write('./outputs/' + run_file, outputs)
+    print(scorer.score(run_file))
