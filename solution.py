@@ -1,6 +1,7 @@
 import library
 import reader
 import writer
+import sys
 
 files = {'a': 'a_example.txt',
          'b': 'b_read_on.txt',
@@ -9,7 +10,7 @@ files = {'a': 'a_example.txt',
          'e': 'e_so_many_books.txt',
          'f': 'f_libraries_of_the_world.txt'}
 
-for f in 'abcefd':
+for f in sys.argv[1]:
     run_file = files[f]
     days_left, remaining_libs = reader.read('./inputs/' + run_file)
     outputs = []
