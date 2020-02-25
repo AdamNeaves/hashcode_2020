@@ -1,8 +1,46 @@
+import itertools
+
+
+class Book:
+
+    def __init__(self, idx, score):
+        self.id = idx
+        self.score = score
+        self.unscanned_copies = 1
+
+    def register_copy(self):
+        self.unscanned_copies += 1
+
+    def scan_copy(self):
+        self.unscanned_copies -= 1
+
+    def __add__(self, o):
+        try:
+            return self.score + o.score
+        except AttributeError:
+            return self.score + o
+
+    def __radd__(self, o):
+        return self + o
+
+    def __sub__(self, o):
+        try:
+            return self.score - o.score
+        except AttributeError:
+            return self.score - o
+
+    def __rsub__(self, o):
+        return - (self - o)
+
+    def get_rating(self):
+        return self.score
+
+
 class Library:
 
     def __init__(self, idx, books, signup, books_per_day):
         self.idx = idx
-        self.books = dict(sorted(books.items(), key=lambda x: -x[1]))
+        self.books = dict(sorted(books.items(), key=lambda x: -x[1].get_rating()))
         self.signup = signup
         self.books_per_day = books_per_day
 
@@ -12,6 +50,8 @@ class Library:
                 del self.books[book]
             except KeyError:
                 pass
+        # Uncomment if book rating depends on avail copies
+        # self.books = dict(sorted(self.books.items(), key=lambda x: -x[1].get_rating()))
         # self.books = list(set(self.books) - set(other_books))
 
     def calc_total_score(self, books):
@@ -37,18 +77,15 @@ class Library:
         if days_after_signup > 0:
             num_books = self.books_per_day * days_after_signup
             if num_books > len(self.books):
-                score = self.calc_total_score(self.books)
-                return score
+                books = self.books
             else:
-                return_dict = {}
-                for x in list(self.books)[:num_books]:
-                    return_dict[x] = self.books[x]
-                score = self.calc_total_score(return_dict)
-                return score
+                books = dict(itertools.islice(self.books.items(), num_books))
+            score = self.calc_total_score(books)
+            return score
         return 0
 
-    def get_score(self, remaining_days, penalty=0):
-        return self.book_score_remaining(remaining_days)/(self.signup + penalty)
+    def get_score(self, remaining_days):
+        return self.book_score_remaining(remaining_days)/(self.signup)
 
     def books_chonked(self, remaining_days):
         return (remaining_days - self.signup) * self.books_per_day

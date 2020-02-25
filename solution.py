@@ -3,6 +3,7 @@ import writer
 import scorer
 import sys
 from multiprocessing.pool import ThreadPool as Pool
+import numpy as np
 
 
 def solve(problems):
@@ -13,6 +14,7 @@ def solve(problems):
              'e': 'e_so_many_books.txt',
              'f': 'f_libraries_of_the_world.txt'}
 
+    pool = Pool()
     for f in problems:
         run_file = files[f]
         days_left, remaining_libs = reader.read('./inputs/' + run_file)
@@ -21,21 +23,23 @@ def solve(problems):
             # Tuning:
             # For b, c, f: 50 is better than 0
             # For e: 0 is better than 50
-            next_lib = max(remaining_libs,
-                           key=lambda x: x.get_score(days_left, 50))
+            scores = pool.map(lambda x: x.get_score(days_left),
+                              remaining_libs)
+            next_lib = remaining_libs[np.argmax(scores)]
+            _ = pool.map(lambda x: x.scan_copy(), next_lib.books.values())
             remaining_libs.remove(next_lib)
             next_lib.books = next_lib.avail_books(days_left)
             if not next_lib.books:
                 continue
-            pool_size = len(remaining_libs)
-            for l in remaining_libs:
-                l.remove_dupes(next_lib.books.keys())
+            _ = pool.map(lambda x: x.remove_dupes(next_lib.books.keys()),
+                         remaining_libs)
 
             days_left = days_left - next_lib.signup
             outputs.append(next_lib)
 
         writer.write('./outputs/' + run_file, outputs)
-        print(scorer.score(run_file))
+        return scorer.score(run_file)
 
 if __name__ == '__main__':
-    solve(sys.argv[1])
+    score = solve(sys.argv[1])
+    print(score[-1])
